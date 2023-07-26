@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CarDealership.VehicleClasses;
 
 namespace CarDealership.CarBrands
 {
@@ -12,6 +8,17 @@ namespace CarDealership.CarBrands
         {
             Manager = "John Doe";
             MinimumInShop = 2;
+            _models = new List<string> { "Corolla", "Camry", "Rav4", "Highlander", "4Runner", "Sienna", "Tacoma" };
+            _types = new List<string> { "Prius", "Supra" };
+            _brand = this;
         }
+
+        protected override Car GenerateBrandVehicle()
+        {
+            CarBuilder builder = new CarBuilder();
+            BuildVehicle(builder);
+            return builder.GetProduct();
+        }
+
     }
 }

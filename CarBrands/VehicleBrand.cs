@@ -1,26 +1,25 @@
-﻿using CarDealership.DealershipBuis;
+﻿using CarDealership.CarTests;
 using CarDealership.Observer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Formats.Asn1.AsnWriter;
+using CarDealership.VehicleClasses;
 
 namespace CarDealership.CarBrands
 {
-    public class VehicleBrand : IObserver
+    public abstract class VehicleBrand : IObserver
     {
+        #region fields
         public string Name { get; }
         public string CountryOfOrigin { get; }
         public int FoundingYear { get; }
         public string Manager { get; set; }
         public int MinimumInShop { get; set; }
+        public int CurrentCarsInShop { get; set; } = 0;
 
-        public static readonly VehicleBrand Toyota = new Toyota();
-        public static readonly VehicleBrand Honda = new Honda();
-        public static readonly VehicleBrand Ford = new Ford();
-        public static readonly VehicleBrand BMW = new BMW();
+        protected List<string> _models;
+        protected List<string> _types;
+        private static Random random = new Random();
+        protected ITest _test = new VehicleTest();
+        protected VehicleBrand _brand;
+        #endregion
 
         public VehicleBrand(string name, string countryOfOrigin, int foundingYear)
         {
@@ -29,20 +28,41 @@ namespace CarDealership.CarBrands
             FoundingYear = foundingYear;
         }
 
-        public void Update(ISubject subject)
+        public void Update()
         {
-            if (subject is ADealership<Car> dealership)
+            Console.WriteLine($"Hello, I am {Manager}. Subject: Product Sold Notification - {Name}");
+
+            if (CurrentCarsInShop < MinimumInShop)
             {
-                string brandName = Name; // Use the brand's name property from VehicleBrand.
-                int currentStock = dealership.CountCarsByBrand(brandName);
-                Console.WriteLine($"Hello i am {Manager} Subject: Product Sold Notification - {Name}");
-
-                if (currentStock < MinimumInShop)
-                {
-                    Console.WriteLine($"Alert: {brandName} brand has low stock. Ordering more cars...");
-
-                }
+                Console.WriteLine($"Alert: {Name} brand has low stock. Ordering more cars...");
             }
         }
+
+        public List<AVehicle> CarProducer(int count)
+        {
+            List<AVehicle> brandVehicles = new List<AVehicle>();
+            CurrentCarsInShop += count;
+            for (int i = 0; i < count; i++)
+            {
+                brandVehicles.Add(GenerateBrandVehicle());
+            }
+            return brandVehicles;
+        }
+
+
+        public void BuildVehicle(VehicleBuilder builder)
+        {
+            builder.Reset();
+            builder.SetYear(random.Next(2015, 2023));
+            builder.SetSeatingCapacity(random.Next(4, 6));
+            builder.SetHorsePower(random.Next(200, 400));
+            builder.SetPrice(random.Next(30000, 100000));
+            builder.SetBrand(_brand);
+            builder.SetTest(_test);
+            builder.SetType(_types[random.Next(0, _types.Count)]);
+            builder.SetModel(_models[random.Next(0, _models.Count)]);
+        }
+
+        protected abstract AVehicle GenerateBrandVehicle();
     }
 }

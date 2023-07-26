@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CarDealership.VehicleClasses;
 
 namespace CarDealership.CarBrands
 {
@@ -11,7 +7,17 @@ namespace CarDealership.CarBrands
         public Honda() : base("Honda", "Japan", 1948)
         {
             Manager = "Jane Smith";
-            MinimumInShop = 0;
+            MinimumInShop = 2;
+            _models = new List<string> { "Civic", "Accord", "CR-V", "Pilot", "Odyssey", "HR-V", "Ridgeline" };
+            _types = new List<string> { "Fit", "Civic Type R" };
+            _brand = this;
         }
+        protected override Car GenerateBrandVehicle()
+        {
+            CarBuilder builder = new CarBuilder();
+            BuildVehicle(builder);
+            return builder.GetProduct();
+        }
+
     }
 }
