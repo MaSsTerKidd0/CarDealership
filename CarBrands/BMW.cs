@@ -1,11 +1,12 @@
 ﻿using CarDealership.CarTests;
 using CarDealership.VehicleClasses;
+using CarDealership.VehicleParts;
+using System.Runtime.Intrinsics.X86;
 
 namespace CarDealership.CarBrands
 {
-    public class BMW : VehicleBrand
+    public class BMW : AVehicleBrand
     {
-
         public BMW() : base("BMW", "Germany", 1916)
         {
             Manager = "Michael Schmidt";
@@ -14,6 +15,11 @@ namespace CarDealership.CarBrands
             _types = new List<string> { "M3", "X7" };
             _test = new BMWTest();
             _brand = this;
+
+            _enginesTypes = new List<string>() { "BMWE1", "BMWE2", "BMWE3" };
+            _batteryTypes = new List<string> { "BMWBattery1", "BMWBattery2" };
+            _brandParts["Engines"].AddRange(PartsSupplier.GenerateEngines(this, _enginesTypes));
+            _brandParts["Batterys"].AddRange(PartsSupplier.GenerateBatterys(this, _batteryTypes));
         }
 
         protected override Car GenerateBrandVehicle()

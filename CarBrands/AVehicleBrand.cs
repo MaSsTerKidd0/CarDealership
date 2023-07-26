@@ -1,12 +1,14 @@
 ﻿using CarDealership.CarTests;
 using CarDealership.Observer;
 using CarDealership.VehicleClasses;
+using CarDealership.VehicleParts;
 
 namespace CarDealership.CarBrands
 {
-    public abstract class VehicleBrand : IObserver
+    public abstract class AVehicleBrand : IObserver
     {
         #region fields
+        //TODO: get rid of some fields :(
         public string Name { get; }
         public string CountryOfOrigin { get; }
         public int FoundingYear { get; }
@@ -16,12 +18,19 @@ namespace CarDealership.CarBrands
 
         protected List<string> _models;
         protected List<string> _types;
-        private static Random random = new Random();
+        private Random random = new Random();
         protected ITest _test = new VehicleTest();
-        protected VehicleBrand _brand;
+        protected AVehicleBrand _brand;
+        protected Dictionary<string, List<AVehiclePart>> _brandParts = new Dictionary<string, List<AVehiclePart>>()
+        {
+            { "Engines", new List<AVehiclePart>() },
+            { "Batterys", new List<AVehiclePart>() }
+        };
+        protected List<string> _enginesTypes;
+        protected List<string> _batteryTypes;
         #endregion
 
-        public VehicleBrand(string name, string countryOfOrigin, int foundingYear)
+        public AVehicleBrand(string name, string countryOfOrigin, int foundingYear)
         {
             Name = name;
             CountryOfOrigin = countryOfOrigin;
@@ -34,7 +43,8 @@ namespace CarDealership.CarBrands
 
             if (CurrentCarsInShop < MinimumInShop)
             {
-                Console.WriteLine($"Alert: {Name} brand has low stock. Ordering more cars...");
+                //TODO: implement order Cars->
+                Console.WriteLine($"Alert: {Name} brand has low stock. Ordering more Vehicle...");
             }
         }
 
@@ -49,8 +59,7 @@ namespace CarDealership.CarBrands
             return brandVehicles;
         }
 
-
-        public void BuildVehicle(VehicleBuilder builder)
+        public void BuildVehicle(IVehicleBuilder builder)
         {
             builder.Reset();
             builder.SetYear(random.Next(2015, 2023));
@@ -61,8 +70,15 @@ namespace CarDealership.CarBrands
             builder.SetTest(_test);
             builder.SetType(_types[random.Next(0, _types.Count)]);
             builder.SetModel(_models[random.Next(0, _models.Count)]);
+            builder.SetEngine((Engine)_brandParts["Engines"][random.Next(0, _brandParts["Engines"].Count)]);
+            builder.SetBattery((Battery)_brandParts["Batterys"][random.Next(0, _brandParts["Batterys"].Count)]);
         }
 
         protected abstract AVehicle GenerateBrandVehicle();
+
+        public List<AVehiclePart> GetBrandParts(string part) 
+        {
+            return _brandParts[part];
+        }
     }
 }

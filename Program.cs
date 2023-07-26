@@ -9,4 +9,4 @@ namespace CarDealership
             Dealership.GetInstance().DealerShipMenu();
         }
     }
-}
+}//TODO: Add motorcycle to the equation(The Dealership) -> implement-> class,Builder any nec.

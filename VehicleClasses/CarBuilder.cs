@@ -1,10 +1,12 @@
 ﻿using CarDealership.CarBrands;
 using CarDealership.CarTests;
+using CarDealership.VehicleParts;
 
 namespace CarDealership.VehicleClasses
 {
-    public class CarBuilder : VehicleBuilder
+    public class CarBuilder : IVehicleBuilder
     {
+        //TODO: CarBuilder can be refactor to be Generic? or by using abstract call AVehicle
         private Car car;
 
         public CarBuilder()
@@ -37,7 +39,7 @@ namespace CarDealership.VehicleClasses
             car.Price = price;
         }
 
-        public void SetBrand(VehicleBrand brand)
+        public void SetBrand(AVehicleBrand brand)
         {
             car.Brand = brand;
         }
@@ -59,6 +61,14 @@ namespace CarDealership.VehicleClasses
         public void SetTest(ITest test)
         {
             car.Test = test;
+        }
+        public void SetEngine(Engine en)
+        {
+            car.VehicleEngine = en;
+        }
+        public void SetBattery(Battery battery)
+        {
+            car.VehicleBattery = battery;
         }
         #endregion
 

@@ -5,7 +5,7 @@ namespace CarDealership.VehicleClasses
     public class VehicleManager
     {
         private List<AVehicle> _vehicles = new List<AVehicle>();
-        private VehicleBrand[] workingWithBrands = new VehicleBrand[] { new Toyota(), new Honda(), new Ford(), new BMW() };
+        public AVehicleBrand[] workingWithBrands = new AVehicleBrand[] { new Toyota(), new Honda(), new Ford(), new BMW() };
 
         public VehicleManager()
         {
@@ -31,8 +31,6 @@ namespace CarDealership.VehicleClasses
         {
             _vehicles.Remove(vehicle);
         }
-
-        
 
         public AVehicle GetVehicleByIndex(int index)
         {

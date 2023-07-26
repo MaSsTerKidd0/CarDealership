@@ -1,5 +1,6 @@
 ﻿using CarDealership.CarBrands;
 using CarDealership.CarTests;
+using CarDealership.VehicleParts;
 
 namespace CarDealership.VehicleClasses
 {
@@ -11,13 +12,14 @@ namespace CarDealership.VehicleClasses
         public int HorsePower { get; set; }
         public int WheelsAmount { get; set; }
         public int Price { get; set; }
-        public VehicleBrand Brand { get; set; }
+        public AVehicleBrand Brand { get; set; }
         public string Model { get; set; }
         public string Typ { get; set; }
+        public Engine VehicleEngine { get; set; }
+        public Battery VehicleBattery { get; set; }
         public ITest Test { get; set; }
 
         #endregion
-
 
         public virtual void DisplayVehicleInfo()
         {
@@ -30,6 +32,8 @@ namespace CarDealership.VehicleClasses
             Console.WriteLine($"Price: {Price:N0}ILS");
             Console.WriteLine($"Model: {Model}");
             Console.WriteLine($"Type: {Typ}");
+            Console.WriteLine($"Engine: {VehicleEngine.Name}");
+            Console.WriteLine($"Battery: {VehicleBattery.Name}");
             Console.WriteLine();
         }
 
@@ -43,6 +47,7 @@ namespace CarDealership.VehicleClasses
                 Test.PerformDriveTest();
             }
         }
+
         public abstract void PerformTest();
 
     }

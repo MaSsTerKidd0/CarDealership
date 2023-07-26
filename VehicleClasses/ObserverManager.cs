@@ -5,13 +5,13 @@ namespace CarDealership.DealershipBuis
 {
     public class ObserverManager
     {
-        private VehicleBrand[] workingWithBrands;
+        private AVehicleBrand[] workingWithBrands;
         private ISubject _subject;
 
         public ObserverManager(ISubject subject)
         {
             _subject = subject;
-            workingWithBrands = new VehicleBrand[] { new Toyota(), new Honda(), new Ford(), new BMW() };
+            workingWithBrands = new AVehicleBrand[] { new Toyota(), new Honda(), new Ford(), new BMW() };
             RegisterObservers();
         }
 

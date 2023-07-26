@@ -11,6 +11,6 @@ namespace CarDealership.Observer
     {
         void Attach(IObserver observer);
         void Detach(IObserver observer);
-        void Notify(VehicleBrand vehiclebrand);
+        void Notify(AVehicleBrand vehiclebrand);
     }
 }
