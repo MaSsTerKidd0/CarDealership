@@ -6,10 +6,10 @@
         {
             WheelsAmount = 2;
         }
-        public override void DisplayVehicleInfo()
+        public override void DisplayInfo()
         {
             Console.WriteLine("This Is MotorCycle: ");
-            base.DisplayVehicleInfo();
+            base.DisplayInfo();
         }
         public override void PerformTest()
         {

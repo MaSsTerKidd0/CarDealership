@@ -20,23 +20,10 @@ namespace CarDealership.VehicleClasses
         public ITest Test { get; set; }
 
         #endregion
-
-        public virtual void DisplayVehicleInfo()
+        public virtual void DisplayInfo()
         {
-            Console.WriteLine("Vehicle Information:");
-            Console.WriteLine($"Brand: {Brand.Name}");
-            Console.WriteLine($"Year: {Year}");
-            Console.WriteLine($"Seating Capacity: {SeatingCapacity}");
-            Console.WriteLine($"Horsepower: {HorsePower}");
-            Console.WriteLine($"Wheels Amount: {WheelsAmount}");
-            Console.WriteLine($"Price: {Price:N0}ILS");
-            Console.WriteLine($"Model: {Model}");
-            Console.WriteLine($"Type: {Typ}");
-            Console.WriteLine($"Engine: {VehicleEngine.Name}");
-            Console.WriteLine($"Battery: {VehicleBattery.Name}");
-            Console.WriteLine();
+            PrintManager.DisplayVehicleInfo(this);
         }
-
         public void PerformVehicleTest()
         {
             if (Test != null)

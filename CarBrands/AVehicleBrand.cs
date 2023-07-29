@@ -16,12 +16,12 @@ namespace CarDealership.CarBrands
         public int MinimumInShop { get; set; }
         public int CurrentCarsInShop { get; set; } = 0;
 
-        protected List<string> _models;
-        protected List<string> _types;
+        public List<string> _models { get; protected set; }
+        public List<string> _types { get; protected set; }
         private Random random = new Random();
-        protected ITest _test = new VehicleTest();
+        public ITest _test { get; protected set; } = new VehicleTest();
         protected AVehicleBrand _brand;
-        protected Dictionary<string, List<AVehiclePart>> _brandParts = new Dictionary<string, List<AVehiclePart>>()
+        public Dictionary<string, List<AVehiclePart>> _brandParts { get; protected set; } = new Dictionary<string, List<AVehiclePart>>()
         {
             { "Engines", new List<AVehiclePart>() },
             { "Batterys", new List<AVehiclePart>() }
@@ -48,37 +48,11 @@ namespace CarDealership.CarBrands
             }
         }
 
-        public List<AVehicle> CarProducer(int count)
-        {
-            List<AVehicle> brandVehicles = new List<AVehicle>();
-            CurrentCarsInShop += count;
-            for (int i = 0; i < count; i++)
-            {
-                brandVehicles.Add(GenerateBrandVehicle());
-            }
-            return brandVehicles;
-        }
-
-        public void BuildVehicle(IVehicleBuilder builder)
-        {
-            builder.Reset();
-            builder.SetYear(random.Next(2015, 2023));
-            builder.SetSeatingCapacity(random.Next(4, 6));
-            builder.SetHorsePower(random.Next(200, 400));
-            builder.SetPrice(random.Next(30000, 100000));
-            builder.SetBrand(_brand);
-            builder.SetTest(_test);
-            builder.SetType(_types[random.Next(0, _types.Count)]);
-            builder.SetModel(_models[random.Next(0, _models.Count)]);
-            builder.SetEngine((Engine)_brandParts["Engines"][random.Next(0, _brandParts["Engines"].Count)]);
-            builder.SetBattery((Battery)_brandParts["Batterys"][random.Next(0, _brandParts["Batterys"].Count)]);
-        }
-
-        protected abstract AVehicle GenerateBrandVehicle();
-
-        public List<AVehiclePart> GetBrandParts(string part) 
+        public List<AVehiclePart> GetBrandParts(string part)
         {
             return _brandParts[part];
         }
+
+        public abstract AVehicle GenerateBrandVehicle();
     }
 }

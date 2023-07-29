@@ -15,12 +15,12 @@ namespace CarDealership.VehicleClasses
 
         public void SellVehicle()
         {
-            Console.WriteLine("Enter The CarInd: ");
+            PrintManager.AskVehicleId();
             int vehicleInd = int.Parse(Console.ReadLine() ?? "0");
             AVehicle vehicle = _vehicleManager.GetVehicleByIndex(vehicleInd - 1);
-            vehicle.DisplayVehicleInfo();
+            vehicle.DisplayInfo();
             _vehicleManager.RemoveVehicle(vehicle);
-            Console.WriteLine("\n--Car Sold--");
+            PrintManager.VehicleSoldMessage();
             vehicle.Brand.CurrentCarsInShop -= 1;
             _subject.Notify(vehicle.Brand);
         }

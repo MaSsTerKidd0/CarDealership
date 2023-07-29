@@ -17,10 +17,10 @@ namespace CarDealership.CarBrands
             _brandParts["Engines"].AddRange(PartsSupplier.GenerateEngines(this, _enginesTypes));
             _brandParts["Batterys"].AddRange(PartsSupplier.GenerateBatterys(this, _batteryTypes));
         }
-        protected override Car GenerateBrandVehicle()
+        public override Car GenerateBrandVehicle()
         {
             CarBuilder builder = new CarBuilder();
-            BuildVehicle(builder);
+            VehicleSupplier.BuildVehicle(builder, this);
             return builder.GetProduct();
         }
     }

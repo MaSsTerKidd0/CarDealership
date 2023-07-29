@@ -17,7 +17,7 @@ namespace CarDealership.VehicleClasses
             Random rnd = new Random();
             for (int i = 0; i < workingWithBrands.Length; i++)
             {
-                _vehicles.AddRange(workingWithBrands[i].CarProducer(rnd.Next(3, 5)));
+                _vehicles.AddRange(VehicleSupplier.VehicleProducer(rnd.Next(3, 5),workingWithBrands[i]));
             }
         }
 
@@ -44,18 +44,14 @@ namespace CarDealership.VehicleClasses
         public void AvailableVehicle()
         {
             int counter = 1;
-            if (_vehicles.Count == 0)
-            {
-                Console.WriteLine("No cars available in the dealership.");
-                return;
-            }
 
-            Console.WriteLine("Available cars in the dealership:");
-            foreach (var vehicle in _vehicles)
+            PrintManager.AvailableCars();
+            for (int i = 0; i < _vehicles.Count; i++)
             {
                 Console.Write($"{counter++}.");
-                vehicle.DisplayVehicleInfo();
+                _vehicles[i].DisplayInfo();
             }
         }
+
     }
 }

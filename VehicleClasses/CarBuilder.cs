@@ -6,7 +6,6 @@ namespace CarDealership.VehicleClasses
 {
     public class CarBuilder : IVehicleBuilder
     {
-        //TODO: CarBuilder can be refactor to be Generic? or by using abstract call AVehicle
         private Car car;
 
         public CarBuilder()

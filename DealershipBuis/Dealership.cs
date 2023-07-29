@@ -2,6 +2,7 @@
 using CarDealership.Observer;
 using CarDealership.VehicleClasses;
 using CarDealership.VehicleParts;
+using System.Runtime.CompilerServices;
 
 namespace CarDealership.DealershipBuis
 {
@@ -13,6 +14,7 @@ namespace CarDealership.DealershipBuis
         private VehicleManager _vehicleManager;
         private ObserverManager _observerManager;
         private VehicleSeller _vehicleSeller;
+        private Garage _garage;
         private static Dictionary<ConsoleKey, Action> dsActions = new Dictionary<ConsoleKey, Action>()
         {
             { ConsoleKey.A, GetInstance().AvailableVehicle },
@@ -42,6 +44,7 @@ namespace CarDealership.DealershipBuis
             _vehicleManager = new VehicleManager();
             _observerManager = new ObserverManager(this);
             _vehicleSeller = new VehicleSeller(this, _vehicleManager);
+            _garage = new Garage(_vehicleManager);
         }
 
         #endregion
@@ -53,13 +56,9 @@ namespace CarDealership.DealershipBuis
             ConsoleKeyInfo keyPressed;
             do
             {
-                Console.WriteLine("A. Car Listing");
-                Console.WriteLine("B. Buy Car");
-                Console.WriteLine("C. Test Car");
-                Console.WriteLine("D. Repalce Car Part");
-                Console.Write("Please Enter your choice: ");
+                PrintManager.PrintMenu();
                 keyPressed = Console.ReadKey(false);
-                Console.WriteLine("");
+                PrintManager.NewLine();
                 if (dsActions.ContainsKey(keyPressed.Key)) { dsActions[keyPressed.Key](); }
             } while (keyPressed.Key != ConsoleKey.Escape);
         }
@@ -80,59 +79,16 @@ namespace CarDealership.DealershipBuis
 
         public void ExecuteVehicleTest()
         {
-            Console.Write("Pick Car to check: ");
+            PrintManager.CarToCheck();
             int index = int.Parse(Console.ReadLine());
             AVehicle vehicle = _vehicleManager.GetVehicleByIndex(index - 1);
             vehicle.PerformVehicleTest();
         }
 
-        public void ExecuteClientVehicleReplaceParts()
+        public void ExecuteClientVehicleReplaceParts() 
         {
-            //TODO: DON'T Like hard coded need to split
-            int choice, index;
-            Random rand = new Random();
-            List<AVehiclePart> repParts = new List<AVehiclePart>();
-            CarBuilder builder = new CarBuilder();
-            _vehicleManager.workingWithBrands[rand.Next(0, 3)].BuildVehicle(builder);
-            AVehicle v = builder.GetProduct();
-            Console.WriteLine("\nClient Car-> ");
-            v.DisplayVehicleInfo();
-            Console.WriteLine("Change: \n1.Engine\n2.Battery\n Pick:");
-            choice = int.Parse(Console.ReadLine());
-            if (choice == 1)
-            {
-                for (int i = 0; i < _vehicleManager.workingWithBrands.Length; i++)
-                {
-                    repParts.AddRange(_vehicleManager.workingWithBrands[i].GetBrandParts("Engines"));
-                }
-            }
-            else
-            {
-                for (int i = 0; i < _vehicleManager.workingWithBrands.Length; i++)
-                {
-                    repParts.AddRange(_vehicleManager.workingWithBrands[i].GetBrandParts("Batterys"));
-                }
-            }
-            for (int i = 0; i < repParts.Count; i++)
-            {
-                Console.WriteLine($"{i+1}. {repParts[i].Name}");
-            }
-            Console.WriteLine("Please Choose replacement: ");
-            index = int.Parse(Console.ReadLine());
-
-            if (choice == 1)
-            {
-                v.VehicleEngine = (Engine)repParts[index -1];
-            }
-            else
-            {
-                v.VehicleBattery = (Battery)repParts[index -1];
-            }
-
-            Console.WriteLine("Client Car After Change: ");
-            v.DisplayVehicleInfo();
+            _garage.ExecuteClientVehicleReplaceParts();
         }
-
 
         #endregion
 
